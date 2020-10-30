@@ -20,6 +20,7 @@ export class SyntheseSearchComponent implements OnInit {
   public areaFilters: Array<any>;
   public taxonApiEndPoint = `${AppConfig.API_ENDPOINT}/synthese/taxons_autocomplete`;
   public validationStatus: Array<any>;
+  public profileConsistancyCategories: any[] ;
   @Input() displayValidation = false;
   @Output() searchClicked = new EventEmitter();
   constructor(
@@ -52,12 +53,20 @@ export class SyntheseSearchComponent implements OnInit {
         this.validationStatus = data[0].values;
       });
     }
+
+    // Create profileConsistancyCategories
+    this.profileConsistancyCategories = [
+      {label:"Aucune information cohérente", value:"0"},
+      {label:"Certaines informations incohérentes", value:"intermédiaire"},
+      {label:"Toutes les informations cohérentes", value:"100"}
+    ]
   }
 
   onSubmitForm() {
     // mark as dirty to avoid set limit=100 when download
     this.formService.searchForm.markAsDirty();
     const updatedParams = this.formService.formatParams();
+    console.log(this.formService.searchForm.value)
     this.searchClicked.emit(updatedParams);
   }
 

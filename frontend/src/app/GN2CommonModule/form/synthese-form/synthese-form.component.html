@@ -1,4 +1,4 @@
-<div class="card search-wrapper">
+<div class="card search-wrapper" [formGroup]="formService.searchForm">
   <fieldset *ngIf="displayValidation">
     <legend> Validation </legend>
 
@@ -19,9 +19,18 @@
       </pnx-multiselect>
     </div>
 
+    <div>
+      <label>Cohérence par rapport au profil</label>
+        <select [formControl]="formService.searchForm.get('profile_consistancy_categories')" name="profile" id="consistancy-select">
+          <option [ngValue]="null"> - </option>
+          <option *ngFor='let val of profileConsistancyCategories' 
+          [ngValue]='val.value' > {{val.label}} 
+        </option>
+      </select>
+    </div>
+
     <div
       id="modif"
-      [formGroup]="formService.searchForm"
       class="form-check"
     >
       <input

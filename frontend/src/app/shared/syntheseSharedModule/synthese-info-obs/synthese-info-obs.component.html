@@ -417,24 +417,25 @@
         class="col-5 padding-sm"
       >
         <h3> Profil du taxon</h3>
-
+        <p>Les données valides contenues dans la base de données permettent d'établir un profil pour 
+          chaque taxon. La cohérence de chaque donnée peut être comparée à ce profil valide.
+        </p>
         <table class="font-xs table table-striped table-sm">
           <tr>
-            <td> Altitude minimale valide </td>
-            <td> {{profile?.properties?.altitude_min}} </td>
+            <td> Nombre de données validées pour ce taxon </td>
+            <td> {{profile?.properties?.count_valid_data}} </td>
           </tr>
-          <tr>
-            <td> Altitude maximale valide </td>
-            <td> {{profile?.properties?.altitude_max}}</td>
-          </tr>
-
           <tr>
             <td> Première observation valide </td>
-            <td> {{profile?.properties?.first_valid_data | date:'dd/MM/yyyy'}} </td>
+            <td> {{profile?.properties?.first_valid_data | date:'dd/MM/yyyy'}}</td>
           </tr>
           <tr>
             <td> Dernière observation valide </td>
             <td>{{profile?.properties?.last_valid_data | date:'dd/MM/yyyy'}}</td>
+          </tr>
+          <tr>
+            <td> Fourchette d'altitudes valides </td>
+            <td> {{profile?.properties?.altitude_min}}m = {{profile?.properties?.altitude_max}}m </td>
           </tr>
         </table>
         <!-- <canvas

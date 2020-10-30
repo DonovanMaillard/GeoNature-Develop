@@ -18,6 +18,7 @@ from utils_flask_sqla_geo.utilsgeometry import circle_from_point
 
 from geonature.utils.env import DB
 from geonature.core.taxonomie.models import Taxref, CorTaxonAttribut, TaxrefLR
+from geonature.core.gn_profiles.models import VConsistancyData
 from geonature.core.gn_synthese.models import (
     Synthese,
     CorObserverSynthese,
@@ -33,14 +34,14 @@ from geonature.core.gn_meta.models import (
 
 class SyntheseQuery:
     """
-        class for building synthese query and manage join
+    class for building synthese query and manage join
 
-        Attributes:
-            query: SQLA select object
-            filters: dict of query string filters
-            model: a SQLA model
-            _already_joined_table: (private) a list of already joined table. Auto build with 'add_join' method
-            query_joins = SQLA Join object
+    Attributes:
+        query: SQLA select object
+        filters: dict of query string filters
+        model: a SQLA model
+        _already_joined_table: (private) a list of already joined table. Auto build with 'add_join' method
+        query_joins = SQLA Join object
     """
 
     def __init__(self, model, query, filters):
@@ -186,7 +187,7 @@ class SyntheseQuery:
 
     def filter_other_filters(self):
         """
-            Other filters
+        Other filters
         """
         if "id_dataset" in self.filters:
             self.query = self.query.where(
@@ -271,6 +272,17 @@ class SyntheseQuery:
         if "modif_since_validation" in self.filters:
             self.query = self.query.where(self.model.meta_update_date > self.model.validation_date)
             self.filters.pop("modif_since_validation")
+
+        if "profile_consistancy_categories" in self.filters:
+            # self.add_join(VConsistancyData, VConsistancyData.id_synthese, self.model.id_synthese)
+            #     if self.filters["profile_consistancy_categories"] == "100":
+            #         self.query = self.query.where(VConsistancyData.score == 100)
+            #     elif self.filters["profile_consistancy_categories"] == "0":
+            #         self.query = self.query.where(VConsistancyData.score == 0)
+            #     else:
+            #         self.query = self.query.where(VConsistancyData.score != 100)
+            #         self.query = self.query.where(VConsistancyData.score != 0)
+            self.filters.pop("profile_consistancy_categories")
 
         # generic filters
         for colname, value in self.filters.items():
